@@ -1,0 +1,37 @@
+Mg Graph Command
+
+Microsoft Graph PowerShell
+14d82eec-204b-4c2f-b7e8-296a70dab67e
+4170d2d7-2cf0-4473-a3e0-db560f3fd2c9
+
+Install-Module -Name Microsoft.Graph
+
+connect-mggraph
+
+// $null or ""
+
+
+
+get-mguser -all | select userprincipalname
+
+$excludePatterns = @('_*', 'Payroll*') 
+
+
+
+Foreach / ForEach-Object / % 
+where / Where-Object / ?
+
+
+ $filteredusers = $allusers | where-object { 
+	$_.UserPrincipalName -notmatch  '^[a-zA-Z]+\.[a-zA-Z]+@' -and
+	$_.UserPrincipalName -notlike  '*admin*' -and
+	$_.UserPrincipalName -notlike  '*adm*' -and
+	$_.UserPrincipalName -notlike '*#EXT#*' -and
+	$_.DisplayName -notlike '_*' -and
+	$_.DisplayName -notlike 'Payroll*' -and
+	$_.DisplayName -notlike 'Interview*' -and
+	$_.Mail -notlike " "
+}
+
+
+$users = Get-AzureADUser -All $true | ? {$_.ExtensionProperty.employeeId -ne $null} | Select-Object DisplayName, UserPrincipalName
